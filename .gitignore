@@ -1,0 +1,47 @@
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+__pycache__/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+.env
+.env.local
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Migrations (optional - uncomment if you want to ignore migrations)
+# */migrations/*.py
+# !*/migrations/__init__.py
