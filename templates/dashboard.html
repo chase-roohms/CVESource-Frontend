@@ -1,0 +1,58 @@
+{% load static %}
+{{ active_page|json_script:"active_page" }}
+<script>updateTabs()</script>
+
+{{ cve_data|json_script:"cve_data" }}
+<script src="{% static '/js/Chart-js_4-4-1_chart.umd.js' %}"></script>
+<script src="{% static '/js/dashboard-charts.js' %}"></script>
+<div class="widget-container column medium-width-widget">
+                <div class="widget-container row medium-width-widget">
+                    <div class="widget-panel small-width-widget small-height-widget own-line">
+                        <h2 class="widget-title">CVSS Average</h2>
+                        <hr>
+                        <div class="number-stat">
+                            <img loading="lazy" class="number-stat-image" src="https://i.imgur.com/7pVrcfc.png"
+                                 alt="Image representation of the severity of the avg CVSS">
+                            <div>
+                                <p class="number-stat-number">{{ cvss_average_today }}</p>
+                                <p class="number-stat-sub-text">Average Today</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a hx-get="{% url 'Database' %}" hx-target="#content" class="widget-panel small-width-widget small-height-widget">
+                        <h2 class="widget-title">Published Today</h2>
+                        <hr>
+                        <div class="number-stat">
+                            <img loading="lazy" class="number-stat-image" src="https://i.imgur.com/16go6U6.png"
+                                 alt="Image representation of the severity of the avg CVSS">
+                            <div>
+                                <p class="number-stat-number">{{ num_cve_published_today }}</p>
+                                <p class="number-stat-sub-text">New CVEs</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a hx-get="{% url 'Database' %}" hx-target="#content" class="widget-panel small-width-widget small-height-widget">
+                        <h2 class="widget-title">Updated Today</h2>
+                        <hr>
+                        <div class="number-stat">
+                            <img loading="lazy" class="number-stat-image" src="https://i.imgur.com/ykIGJLc.png"
+                                 alt="Image representation of the severity of the avg CVSS">
+                            <div>
+                                <p class="number-stat-number">{{ num_cve_updated_today }}</p>
+                                <p class="number-stat-sub-text">Updated CVEs</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="widget-container row medium-width-widget">
+                    <div class="widget-panel large-height-widget">
+                        <h2 class="widget-title">Recent CVE Activity</h2>
+                        <hr>
+                        <div class="chart-container">
+                            <canvas class="chart-canvas" id="recent-cve-activity"></canvas>
+                        </div>
+                    </div>
+                </div>
+</div>
+<script>graphLoad();</script>

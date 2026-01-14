@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>html { opacity: 0; }</style>
+    <!------------------------ META ------------------------->
+    <title>{{ title|truncatechars:64 }}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="CVESource.com"/>
+    <meta name="description" content="{{ description|truncatechars:250 }}"/>
+    <meta name="keywords" content="severity, security, cve, nvd, security vulnerability, vulnerability, exploit, cvss, cwe, information security, vulnerability database, open source vulnerabilities, attack surface, vulnerability intelligence, vuln intel, vulnerability intel, zero day, vulnerabilities in CISA KEV {% for keyword in keywords %}, {{ keyword.value }}{% endfor %}" />
+    <link rel="canonical" href="https://cvesource.com/vuln/cve/{{ cve_id }}"/>
+    <meta property="og:title" content="{{ title|truncatechars:64 }}"/>
+    <meta property="og:description" content="{{ description|truncatechars:250 }}"/>
+    <meta property="og:type" content="{{ og_type }}"/>
+    <meta property="og:url" content="https://cvesource.com/{{ url_path }}"/>
+    <meta property="og:image" content="{% static '/CVESourceSocialShareImage.jpg' %}"/>
+    <meta property="og:image:width" content="1337"/>
+    <meta property="og:image:height" content="700"/>
+    <meta property="og:image:alt" content="CVESource's logo, containing their name along with the phrase: A Single Source of Truth">
+    <meta property="og:image:type" content="image/jpeg"/>
+    <meta property="og:site_name" content="CVESource.com"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta name="twitter:site" content="@cvesource"/>
+    <meta name="twitter:card" content="{{ twitter_card_type }}"/>
+    <meta name="twitter:title" content="{{ title|truncatechars:64 }}"/>
+    <meta name="twitter:description" content="{{ description|truncatechars:250 }}">
+    <meta name="twitter:image" content="{% static '/CVESourceSocialShareImage.jpg' %}"/>
+    <meta name="twitter:image:alt" content="CVESource's logo, containing their name along with the phrase: A Single Source of Truth">
+    <!---------------------- TAB DECOR ---------------------->
+    <link rel="icon" href={% static '/CVESourceFavicon.png' %}>
+    <!--------------------- CSS IMPORTS --------------------->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" type="text/css" href="{% static '/css/kb.css' %}" as="style">
+    <link rel="stylesheet" href={% static '/css/kb.css' %}>
+    <!--------------------- JS IMPORTS ---------------------->
+</head>
+<body>
+<header>
+    <img src="{% static '/CVESourceFull.webp' %}" alt="CVESource's Logo">
+    <!--
+    <div class="form-bar">
+        <input class="form-field" type="text" id="cve_search" name="cve_search" placeholder="Search..." aria-label="Search field for CVEs">
+    </div>
+    -->
+    <button class="launch-button" onclick="window.open('/app/', '_blank');" value="/app/">
+        <span>Launch App</span>
+    </button>
+</header>
+<nav>
+<ul>
+    <li class="nav-item">
+        <a class="nav-link">
+        Vulnerabilities
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link">
+        Vulnerabilities
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link">
+        Vulnerabilities
+        </a>
+    </li>
+</ul>
+</nav>
+<main>
+    <h2>Hello world</h2>
+</main>
+
+
+
+{% block kb_body %} {% endblock kb_body %}
+</body>
+</html>

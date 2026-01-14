@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!------------------------ META ------------------------->
+    <title>CVESource: Dashboard and Database for Vulnerabilities (CVE)</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="CVESource.com"/>
+    <meta name="description" content="CVESource, a single source of truth for Vulnerability (CVE) insights. Complete with a dashboard and database, CVESource is perfect for quick reference of current data and trends, as well as in depth research and intelligence gathering."/>
+    <meta name="keywords" content="security, cve, nvd, security vulnerability, vulnerability, exploit, cvss, cwe, information security, vulnerability database, open source vulnerabilities, attack surface, vulnerability intelligence, vuln intel, vulnerability intel, zero day, vulnerabilities in CISA KEV" />
+    <link rel="canonical" href="https://cvesource.com/app"/>
+    <meta property="og:title" content="CVESource: CVE Vulnerability Dashboard and Database"/>
+    <meta property="og:description" content="CVESource, a single source of truth for Vulnerability (CVE) insights. Complete with a dashboard and database, CVESource is perfect for quick reference of current data and trends, as well as in depth research and intelligence gathering."/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://cvesource.com/app"/>
+    <meta property="og:image" content="{% static '/CVESourceSocialShareImage.jpg' %}"/>
+    <meta property="og:image:width" content="1337" />
+    <meta property="og:image:height" content="700" />
+    <meta property="og:image:alt" content="CVESource's logo, containing their name along with the phrase: A Single Source of Truth">
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:site_name" content="CVESource.com"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta name="twitter:site" content="@cvesource" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="CVESource: CVE Vulnerability Dashboard and Database"/>
+    <meta name="twitter:description" content="CVESource, a single source of truth for Vulnerability (CVE) insights. Complete with a dashboard and database, CVESource is perfect for quick reference of current data and trends, as well as research.">
+    <meta name="twitter:image" content="{% static '/CVESourceSocialShareImage.jpg' %}"/>
+    <meta name="twitter:image:alt" content="CVESource's logo, containing their name along with the phrase: A Single Source of Truth">
+    <!---------------------- TAB DECOR ---------------------->
+    <link rel="icon" href={% static '/CVESourceFavicon.png' %}>
+    <!--------------------- CSS IMPORTS --------------------->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" type="text/css" href="{% static '/css/app.css' %}" as="style">
+    <link rel="stylesheet" href={% static '/css/app.css' %}>
+    <!--------------------- JS IMPORTS ---------------------->
+    <script src="{% static '/js/app.js' %}"></script>
+    <script src="{% static '/js/dashboard-charts.js' %}"></script>
+    <script src="{% static '/js/db_query.js' %}"></script>
+    <script src="{% static '/js/Chart-js_4-4-1_chart.umd.js' %}"></script>
+    <script src="{% static '/js/htmx_min_V2-0-2.js' %}"></script>
+</head>
+<body>
+<script>applyColorScheme()</script>
+<div class="outer-panel">
+    <div class="side-menu">
+        <!---------------------- Big Logo ---------------------->
+        <div class="menu-logo">
+            <img id="big-menu-logo" loading="lazy" class="img-logo dark-logo" alt="CVE Source Logo"
+                 src={% static '/CVESourceFull.webp' %}>
+        </div>
+        <!--------------------- Small Logo --------------------->
+        <div class="small-menu-logo">
+            <img id="small-menu-logo" loading="lazy" class="small-img-logo dark-logo" alt="CVE Source Logo"
+                 src={% static '/CVESource.webp' %}>
+        </div>
+        <script>applyPhotoColorScheme()</script>
+        <!-- Collection of menu items, linking to other pages -->
+        <!--------------------- Dashboard ---------------------->
+        <a class="menu-item" id="dashboard" hx-get="{% url 'Dashboard' %}" hx-target="#content">
+            <svg class="menu-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="16.52 16.52 94.97 94.97">
+                <path d="m32 16.535c-8.5391 0-15.465 6.9258-15.465 15.465v16c0 8.5391 6.9258 15.465 15.465 15.465h10.664c8.5469 0 15.469-6.9258 15.469-15.465v-16c0-8.5391-6.9258-15.465-15.469-15.465zm-5.8633 15.465c0-3.2383 2.625-5.8633 5.8633-5.8633h10.664c3.2383 0 5.8711 2.625 5.8711 5.8633v16c0 3.2383-2.6289 5.8633-5.8711 5.8633h-10.664c-3.2383 0-5.8633-2.625-5.8633-5.8633zm0.53125 48.535c-5.5938 0-10.129 4.5352-10.129 10.129v10.672c0 5.5938 4.5352 10.129 10.129 10.129h21.336c5.5938 0 10.137-4.5352 10.137-10.129v-10.672c0-5.5938-4.5391-10.129-10.137-10.129zm-0.53125 10.129c0-0.29687 0.23438-0.53125 0.53125-0.53125h21.336c0.29688 0 0.53516 0.23438 0.53516 0.53125v10.672c0 0.29687-0.23828 0.53125-0.53516 0.53125h-21.336c-0.29688 0-0.53125-0.23438-0.53125-0.53125zm43.73-64c0-5.5938 4.5391-10.129 10.137-10.129h21.336c5.5938 0 10.129 4.5352 10.129 10.129v10.672c0 5.5938-4.5352 10.129-10.129 10.129h-21.336c-5.5938 0-10.137-4.5352-10.137-10.129zm10.137-0.53125c-0.29688 0-0.53516 0.23438-0.53516 0.53125v10.672c0 0.29687 0.23828 0.53125 0.53516 0.53125h21.336c0.29688 0 0.53125-0.23438 0.53125-0.53125v-10.672c0-0.29687-0.23438-0.53125-0.53125-0.53125zm5.3359 33.066c-8.5469 0-15.469 6.9258-15.469 15.465v21.336c0 8.5391 6.9258 15.465 15.469 15.465h10.664c8.5391 0 15.465-6.9258 15.465-15.465v-21.336c0-8.5391-6.9258-15.465-15.465-15.465zm-5.8711 15.465c0-3.2383 2.6289-5.8633 5.8711-5.8633h10.664c3.2383 0 5.8633 2.625 5.8633 5.8633v21.336c0 3.2383-2.625 5.8633-5.8633 5.8633h-10.664c-3.2383 0-5.8711-2.625-5.8711-5.8633z"
+                      fill-rule="evenodd"></path>
+            </svg>
+            <h3 class="menu-item-text">Dashboard</h3>
+            <div class="menu-item-indicator"></div>
+        </a>
+        <!--------------------- Database ----------------------->
+        <a class="menu-item" id="database" hx-get="{% url 'Database' %}" hx-target="#content">
+            <svg class="menu-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="21.85 21.85 89.63 89.63">
+                <path d="m31.465 64c0-17.969 14.566-32.535 32.535-32.535 17.965 0 32.535 14.566 32.535 32.535 0 17.965-14.57 32.535-32.535 32.535-17.969 0-32.535-14.57-32.535-32.535zm32.535-42.137c-23.27 0-42.137 18.863-42.137 42.137 0 23.27 18.863 42.137 42.137 42.137 9.9062 0 19.012-3.4219 26.207-9.1406l13.07 13.066c1.8711 1.875 4.9102 1.875 6.7852 0s1.875-4.9141 0-6.7852l-13.066-13.07c5.7188-7.1953 9.1406-16.301 9.1406-26.207 0-23.27-18.863-42.137-42.137-42.137z"
+                      fill-rule="evenodd"></path>
+            </svg>
+            <h3 class="menu-item-text">Database</h3>
+            <div class="menu-item-indicator"></div>
+        </a>
+        <!--------------------- Warnings ----------------------->
+        <a class="menu-item" id="warnings" hx-get="{% url 'Warnings' %}" hx-target="#content">
+            <svg class="menu-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="16.52 16.52 94.97 94.97">
+                <path d="m26.137 64c0-20.914 16.949-37.863 37.863-37.863s37.863 16.949 37.863 37.863-16.949 37.863-37.863 37.863-37.863-16.949-37.863-37.863zm37.863-47.465c-26.215 0-47.465 21.25-47.465 47.465s21.25 47.465 47.465 47.465 47.465-21.25 47.465-47.465-21.25-47.465-47.465-47.465zm4.8008 26.129c0-2.6484-2.1484-4.8008-4.8008-4.8008-2.6484 0-4.8008 2.1484-4.8008 4.8008v14.711c0 5.5156 2.1914 10.805 6.0898 14.703l5.9844 5.9805c1.8711 1.875 4.9102 1.875 6.7852 0s1.875-4.9141 0-6.7852l-5.9805-5.9844c-2.1016-2.1016-3.2812-4.9453-3.2812-7.9141z"
+                      fill-rule="evenodd"></path>
+            </svg>
+            <h3 class="menu-item-text">Warnings</h3>
+            <div class="menu-item-indicator"></div>
+        </a>
+        <!---------------------- Spacer ------------------------>
+        <div class="menu-spacer"></div>
+        <!--------------------- Dark Mode ---------------------->
+        <a class="menu-item color-scheme" href="#" onclick="toggleColorScheme(); graphLoad(); return false;">
+            <svg class="menu-item-icon sun" xmlns="http://www.w3.org/2000/svg" viewBox="6.37 6.37 115.27 115.27">
+                <path d="m64 6.3984c2.4766 0 4.4805 2.0039 4.4805 4.4805v11.52c0 2.4766-2.0039 4.4805-4.4805 4.4805s-4.4805-2.0039-4.4805-4.4805v-11.52c0-2.4766 2.0039-4.4805 4.4805-4.4805z"></path>
+                <path d="m64 94.719c16.965 0 30.719-13.754 30.719-30.719s-13.754-30.719-30.719-30.719-30.719 13.754-30.719 30.719 13.754 30.719 30.719 30.719zm0-8.9609c12.02 0 21.762-9.7383 21.762-21.762 0-12.02-9.7383-21.762-21.762-21.762-12.02 0-21.762 9.7383-21.762 21.762 0 12.02 9.7383 21.762 21.762 21.762z"
+                      fill-rule="evenodd"></path>
+                <path d="m68.48 105.6c0-2.4766-2.0039-4.4805-4.4805-4.4805s-4.4805 2.0039-4.4805 4.4805v11.52c0 2.4766 2.0039 4.4805 4.4805 4.4805s4.4805-2.0039 4.4805-4.4805z"></path>
+                <path d="m104.73 23.27c1.75 1.75 1.75 4.5859 0 6.3359l-8.1445 8.1445c-1.75 1.75-4.5898 1.75-6.3359 0-1.75-1.7461-1.75-4.5859 0-6.3359l8.1445-8.1445c1.75-1.75 4.5859-1.75 6.3359 0z"></path>
+                <path d="m37.75 96.586c1.75-1.75 1.75-4.5898 0-6.3359-1.7461-1.75-4.5859-1.75-6.3359 0l-8.1445 8.1445c-1.75 1.75-1.75 4.5859 0 6.3359s4.5859 1.75 6.3359 0z"></path>
+                <path d="m121.6 64c0 2.4766-2.0039 4.4805-4.4805 4.4805h-11.52c-2.4766 0-4.4805-2.0039-4.4805-4.4805s2.0039-4.4805 4.4805-4.4805h11.52c2.4766 0 4.4805 2.0039 4.4805 4.4805z"></path>
+                <path d="m22.398 68.48c2.4766 0 4.4805-2.0039 4.4805-4.4805s-2.0039-4.4805-4.4805-4.4805h-11.52c-2.4766 0-4.4805 2.0039-4.4805 4.4805s2.0039 4.4805 4.4805 4.4805z"></path>
+                <path d="m104.73 104.73c-1.75 1.75-4.5859 1.75-6.3359 0l-8.1445-8.1445c-1.75-1.75-1.75-4.5898 0-6.3359 1.7461-1.75 4.5859-1.75 6.3359 0l8.1445 8.1445c1.75 1.75 1.75 4.5859 0 6.3359z"></path>
+                <path d="m31.414 37.75c1.75 1.75 4.5898 1.75 6.3359 0 1.75-1.7461 1.75-4.5859 0-6.3359l-8.1445-8.1445c-1.75-1.75-4.5859-1.75-6.3359 0s-1.75 4.5859 0 6.3359z"></path>
+            </svg>
+            <svg class="menu-item-icon moon" xmlns="http://www.w3.org/2000/svg" viewBox="7.55 6.4 112.88 115.2">
+                <path d="m120.2 81c-4.2695 13.824-13.465 25.496-26.211 32.855l0.003906 0.003906c-27.551 15.906-62.742 6.4844-78.656-21.074l-0.003906 0.003906c-20.465-35.445 1.6133-79.824 41.34-85.762 7.1953-1.0742 14.48-0.75391 21.461 0.85547 3.5391 0.81641 4.0703 5.6602 0.75 7.2148l-2.5703 1.3398 0.003906 0.003906c-27.359 15.797-22.047 57.043 8.5859 65.25 8.8086 2.3594 18.52 1.3633 27.031-3.5469l-0.003906-0.003906 2.4961-1.5742c3.0391-2.1016 7.0039 0.94922 5.7734 4.4297zm-15.941 14.102c1.8008-2.2617 3.3867-4.6602 4.75-7.1602-19.559 7.1992-41.754-0.625-52.371-19.012-10.609-18.375-6.2734-41.504 9.7148-54.84-22.945-0.55078-43.406 14.699-49.375 36.984-7.1367 26.621 8.6445 54 35.293 61.141 12.344 3.3086 25.945 1.9102 37.879-4.9805l0.003906 0.003906c5.6055-3.2539 10.27-7.3203 14.102-12.141z"
+                      fill-rule="evenodd"></path>
+            </svg>
+        </a>
+    </div>
+    <!---------------------- Content ----------------------->
+    <div class="main-container">
+        <div id="content" class="main-content">
+
+            <!--------------------------- Start of page specific content ---------------------------->
+            {% block content %} {% endblock content %}
+            <!---------------------------- End of page specific content ----------------------------->
+
+        </div>
+    </div>
+    <!----------------- Scroll Bar Shadow ------------------>
+    <div class="main-content-shadow"></div>
+</div>
+</body>
+</html>

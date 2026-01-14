@@ -1,0 +1,93 @@
+{% load static %}
+{{ active_page|json_script:"active_page" }}
+<script>updateTabs()</script>
+<script src="{% static '/js/db_query.js' %}"></script>
+<div class="widget-container column database">
+    <div class="widget-container row small-height-db">
+        <form class="widget-panel database search-form" id="search" autocomplete="off">
+            <input type="hidden" autocomplete="false">
+            <div class="form-bar">
+                <input class="form-field" type="text" id="cve_search" name="cve_search" placeholder="Search..." aria-label="Search field for CVEs">
+            </div>
+            <button class="search-button">
+
+            </button>
+        </form>
+    </div>
+    <div class="widget-container row database medium-width-widget">
+        <div id="db-results" class="widget-panel database">
+                <!--------------------------- Start of results content ---------------------------->
+                {% block results %} {% endblock results %}
+                <!---------------------------- End of results content ----------------------------->
+        </div>
+        <form class="widget-panel database small-width-db filters" id="filter" autocomplete="off">
+            <input type="hidden" autocomplete="false">
+            <fieldset class="filter-entry">
+                <legend style="text-align: center; width: 100%; overflow: hidden">Sort By</legend>
+                <div class="filter">
+                    <input type="hidden" id="sort_by_value_field">
+                    <select class="form-bar" id="sort_by" name="sort_by" aria-label="Value to sort by">
+                        <option value="published">Published</option>
+                        <option value="modified">Modified</option>
+                        <option value="cvss_score">CVSS Score</option>
+                    </select>
+                    <script>populateDropdown()</script>
+                    <button class="search-button" id="sort_asc_desc_button" aria-label="Sort ascending or descending" onmouseup="toggle_sort_asc_desc();"
+                            onmousedown="prep_sort_order_button()">
+                        <svg class="sort-button-icon" id="sort_asc_desc_icon" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="24 16 80.03 96">
+                            <path d="m102.25 69-32 40c-1.5156 1.8984-3.8164 3-6.2461 3s-4.7305-1.1016-6.2461-3l-32-40c-1.9258-2.4062-2.3008-5.6953-0.96484-8.4688 1.3281-2.7656 4.1367-4.5312 7.2109-4.5312h24v-32c0-4.4219 3.5781-8 8-8s8 3.5781 8 8v32h24c3.0742 0 5.8789 1.7656 7.2109 4.5312 1.3359 2.7734 0.96094 6.0664-0.96484 8.4688z"></path>
+                        </svg>
+                        <input type="hidden" id="order">
+                    </button>
+                </div>
+            </fieldset>
+            <fieldset class="filter-entry">
+                <legend>Published</legend>
+                <div class="filter">
+                    <div class="form-bar">
+                        <input class="form-field filter-field" type="date" id="pub_from" name="pub_from" placeholder="Start Date" aria-label="Start of CVE Published Range">
+                    </div>
+                    <div class="filter-text">to</div>
+                    <div class="form-bar">
+                        <input class="form-field filter-field" type="date" id="pub_to" name="pub_to" placeholder="End Date" aria-label="End of CVE Published Range">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="filter-entry">
+                <legend>Modified</legend>
+                <div class="filter">
+                    <div class="form-bar">
+                        <input class="form-field" type="date" id="mod_from" name="mod_from" placeholder="Start Date" aria-label="Start of CVE Modified Range">
+                    </div>
+                    <div class="filter-text">to</div>
+                    <div class="form-bar">
+                        <input class="form-field" type="date" id="mod_to" name="mod_to" placeholder="End Date" aria-label="End of CVE Modified Range">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="filter-entry">
+                <legend>CVSS Score</legend>
+                <div class="filter">
+                    <div class="form-bar">
+                        <input class="form-field" type="number" step="0.1" min="0" max="10" id="min_cvss" name="min_cvss" placeholder="Minimum" aria-label="Minimum CVSS value">
+                    </div>
+                    <div class="filter-text">to</div>
+                    <div class="form-bar">
+                        <input class="form-field" type="number" step="0.1" min="0" max="10" id="max_cvss" name="max_cvss" placeholder="Maximum" aria-label="Maximum CVSS value">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<script>
+    addSubmitListener('search');
+    addSubmitListener('filter');
+    load_fields_from_session_store();
+    set_sort_order_icon();
+    autosave_init();
+    format_init();
+    get_results();
+</script>
+
